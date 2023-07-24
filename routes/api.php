@@ -26,4 +26,4 @@ Route::apiResource('services', ServiceController::class);
 Route::post('clients/service', [ClientController::class, 'attach']);
 Route::post('services/service/detach', [ClientController::class, 'detach']);
 
-Route::get('service/clients', [ServiceController::class, 'clients']);
+Route::post('services/clients', [ServiceController::class, 'clients']);
