@@ -22,3 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('clients', ClientController::class);
 Route::apiResource('services', ServiceController::class);
+
+Route::post('clients/service', [ClientController::class, 'attach']);
+Route::post('services/service/detach', [ClientController::class, 'detach']);
+
+Route::get('service/clients', [ServiceController::class, 'clients']);
