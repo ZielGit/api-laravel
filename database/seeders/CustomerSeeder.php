@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\Client;
+use App\Models\Customer;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ClientSeeder extends Seeder
+class CustomerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $clients = Client::factory(5)->create();
+        $customers = Customer::factory(5)->create();
 
-        foreach ($clients as $client) {
-            $client->services()->attach(rand(1, 3));
+        foreach ($customers as $customer) {
+            $customer->services()->attach(rand(1, 3));
         }
     }
 }

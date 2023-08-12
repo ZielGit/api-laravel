@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,17 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
     Route::apiResource('services', ServiceController::class);
 });
 
-Route::apiResource('clients', ClientController::class);
+Route::apiResource('customers', CustomerController::class);
 
-Route::post('clients/service', [ClientController::class, 'attach']);
-Route::post('services/service/detach', [ClientController::class, 'detach']);
+Route::post('/customers/service', [CustomerController::class, 'attach']);
+Route::post('/services/service/detach', [CustomerController::class, 'detach']);
 
-Route::post('services/clients', [ServiceController::class, 'clients']);
+Route::post('/services/customers', [ServiceController::class, 'customers']);
