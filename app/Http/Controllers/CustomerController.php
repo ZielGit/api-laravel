@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $customers = Customer::all();
@@ -26,9 +23,6 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $customer = new Customer;
@@ -44,9 +38,6 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Customer $customer)
     {
         $data = [
@@ -56,9 +47,6 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Customer $customer)
     {
         $customer->name = $request->name;
@@ -73,14 +61,12 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Customer $customer)
     {
+        $customer->services()->detach();
         $customer->delete();
         $data = [
-            'message' => 'Customer deleted successfully',
+            'message' => 'Customer and services deleted successfully',
             'customer' => $customer
         ];
         return response()->json($data);
