@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customer\StoreRequest;
+use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -23,7 +25,7 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $customer = new Customer;
         $customer->document_type = $request->document_type;
@@ -50,7 +52,7 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    public function update(Request $request, Customer $customer)
+    public function update(UpdateRequest $request, Customer $customer)
     {
         $customer->document_type = $request->document_type;
         $customer->document_number = $request->document_number;
