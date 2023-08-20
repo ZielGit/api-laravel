@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->tinyInteger('document_type')->default(0)->comment('0: DNI, 1: FOREIGNER CARD');
+            $table->string('document_number', 8)->unique();
             $table->string('name');
+            $table->string('last_name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();

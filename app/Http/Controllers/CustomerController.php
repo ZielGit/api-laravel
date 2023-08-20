@@ -26,7 +26,10 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $customer = new Customer;
+        $customer->document_type = $request->document_type;
+        $customer->document_number = $request->document_number;
         $customer->name = $request->name;
+        $customer->last_name = $request->last_name;
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->address = $request->address;
@@ -49,7 +52,10 @@ class CustomerController extends Controller
 
     public function update(Request $request, Customer $customer)
     {
+        $customer->document_type = $request->document_type;
+        $customer->document_number = $request->document_number;
         $customer->name = $request->name;
+        $customer->last_name = $request->last_name;
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->address = $request->address;
