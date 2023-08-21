@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Service\StoreRequest;
+use App\Http\Requests\Service\UpdateRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,7 @@ class ServiceController extends Controller
         return response()->json($services);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $service = new Service;
         $service->name = $request->name;
@@ -32,7 +34,7 @@ class ServiceController extends Controller
         return response()->json($service);
     }
 
-    public function update(Request $request, Service $service)
+    public function update(UpdateRequest $request, Service $service)
     {
         $service->name = $request->name;
         $service->description = $request->description;
@@ -57,6 +59,10 @@ class ServiceController extends Controller
 
     public function customers(Request $request)
     {
+        $request->validate([
+            'service_id' => 'required|exists:services,id'
+        ]);
+
         $service = Service::find($request->service_id);
         $customers = $service->customers;
         $data = [
