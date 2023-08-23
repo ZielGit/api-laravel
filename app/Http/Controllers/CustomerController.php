@@ -82,6 +82,11 @@ class CustomerController extends Controller
 
     public function attach(Request $request)
     {
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'service_id' => 'required|exists:services,id'
+        ]);
+
         $customer = Customer::find($request->customer_id);
         $customer->services()->attach($request->service_id);
         $data = [
@@ -93,6 +98,11 @@ class CustomerController extends Controller
 
     public function detach(Request $request)
     {
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'service_id' => 'required|exists:services,id'
+        ]);
+
         $customer = Customer::find($request->customer_id);
         $customer->services()->detach($request->service_id);
         $data = [
