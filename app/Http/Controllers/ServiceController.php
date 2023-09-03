@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Service\CustomersRequest;
 use App\Http\Requests\Service\StoreRequest;
 use App\Http\Requests\Service\UpdateRequest;
 use App\Models\Service;
@@ -57,12 +58,8 @@ class ServiceController extends Controller
         return response()->json($data);
     }
 
-    public function customers(Request $request)
+    public function customers(CustomersRequest $request)
     {
-        $request->validate([
-            'service_id' => 'required|exists:services,id'
-        ]);
-
         $service = Service::find($request->service_id);
         $customers = $service->customers;
         $data = [
