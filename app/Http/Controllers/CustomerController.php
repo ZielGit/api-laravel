@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customer\AttachRequest;
+use App\Http\Requests\Customer\DetachRequest;
 use App\Http\Requests\Customer\StoreRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Customer;
@@ -80,13 +82,8 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    public function attach(Request $request)
+    public function attach(AttachRequest $request)
     {
-        $request->validate([
-            'customer_id' => 'required|exists:customers,id',
-            'service_id' => 'required|exists:services,id'
-        ]);
-
         $customer = Customer::find($request->customer_id);
         $customer->services()->attach($request->service_id);
         $data = [
@@ -96,13 +93,8 @@ class CustomerController extends Controller
         return response()->json($data);
     }
 
-    public function detach(Request $request)
+    public function detach(DetachRequest $request)
     {
-        $request->validate([
-            'customer_id' => 'required|exists:customers,id',
-            'service_id' => 'required|exists:services,id'
-        ]);
-
         $customer = Customer::find($request->customer_id);
         $customer->services()->detach($request->service_id);
         $data = [
