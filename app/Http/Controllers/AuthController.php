@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-// use Validator;
 
 class AuthController extends Controller
 {
@@ -18,12 +17,6 @@ class AuthController extends Controller
         //     'email' =>'required|email|unique:users',
         //     'password' => 'required|confirmed'
         // ]);
-        // $user = new User();
-        // $user->name = $request->name;
-        // $user->email = $request->email;
-        // $user->password = Hash::make($request->password);
-        // $user->save();
-        // return response($user, Response::HTTP_CREATED);
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -54,20 +47,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // $credentials = $request->validate([
-        //     'email' => ['required', 'email'],
-        //     'password' => ['required']
-        // ]);
-
-        // if (Auth::attempt($request->only('email'), 'password')) {
-            // $user = Auth::user();
-            // $token = $user->createToken('token')->plainTextToken;
-            // $cookie = cookie('cookie_token', $token, 60 * 24);
-            // return response(["token" => $token], Response::HTTP_OK)->withoutCookie($cookie);
-        // } else {
-        //     return response(["message" => "Credenciales inválidas"], Response::HTTP_UNAUTHORIZED);
-        // }
-
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json(["message" => "Unauthorized", 401]);
         }
