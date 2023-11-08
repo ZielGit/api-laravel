@@ -54,11 +54,17 @@ class AuthController extends Controller
         $user = User::where('email', $request['email'])->firstOrfail();
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        // Obtén los roles y permisos del usuario
+        $roles = $user->getRoleNames();
+        $permissions = $user->getAllPermissions();
+
         return response()->json([
             "message" => "HI ".$user->name,
             "accessToken" => $token,
             "token_type" => "Bearer",
             "user" => $user,
+            "roles" => $roles,
+            "permissions" => $permissions
         ]);
     }
 
