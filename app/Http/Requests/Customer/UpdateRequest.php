@@ -21,14 +21,27 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'document_type' => 'required|in:0,1',
-            'document_number' => 'required|string|unique:customers,document_number,'.$this->route('customer')->id,
-            'name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|string|email|unique:customers,email,'.$this->route('customer')->id,
-            'phone' => 'nullable|string',
-            'address' => 'nullable|string'
-        ];
+        $method = $this->method();
+        if ($method == 'PUT') {
+            return [
+                'document_type' => ['required', 'in:0,1'],
+                'document_number' => ['required', 'string', 'unique:customers,document_number,' . $this->customer->id],
+                'name' => ['required', 'string'],
+                'last_name' => ['required', 'string'],
+                'email' => ['required', 'string', 'email', 'unique:customers,email,' . $this->customer->id],
+                'phone' => ['nullable', 'string'],
+                'address' => ['nullable', 'string'],
+            ];
+        } else { // PATH
+            return [
+                'document_type' => ['sometmes', 'required', 'in:0,1'],
+                'document_number' => ['sometmes', 'required', 'string', 'unique:customers,document_number,' . $this->customer->id],
+                'name' => ['sometmes', 'required', 'string'],
+                'last_name' => ['sometmes', 'required', 'string'],
+                'email' => ['sometmes', 'required', 'string', 'email', 'unique:customers,email,' . $this->customer->id],
+                'phone' => ['sometmes', 'nullable', 'string'],
+                'address' => ['sometmes', 'nullable', 'string'],
+            ];
+        }
     }
 }

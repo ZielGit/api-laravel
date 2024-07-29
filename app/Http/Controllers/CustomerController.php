@@ -6,69 +6,32 @@ use App\Http\Requests\Customer\AttachRequest;
 use App\Http\Requests\Customer\DetachRequest;
 use App\Http\Requests\Customer\StoreRequest;
 use App\Http\Requests\Customer\UpdateRequest;
+use App\Http\Resources\Customer\CustomerCollection;
+use App\Http\Resources\Customer\CustomerResource;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     public function index()
     {
         $customers = Customer::all();
-        $data = [];
-        foreach ($customers as $customer) {
-            $data[] = [
-                'id' => $customer->id,
-                'name' => $customer->name,
-                'email' => $customer->email,
-                'phone' => $customer->phone,
-                'services' => $customer->services
-            ];
-        }
-        return response()->json($data);
+        return new CustomerCollection($customers);
     }
 
     public function store(StoreRequest $request)
     {
-        $customer = new Customer;
-        $customer->document_type = $request->document_type;
-        $customer->document_number = $request->document_number;
-        $customer->name = $request->name;
-        $customer->last_name = $request->last_name;
-        $customer->email = $request->email;
-        $customer->phone = $request->phone;
-        $customer->address = $request->address;
-        $customer->save();
-        $data = [
-            'message' => 'Customer created successfully',
-            'customer' => $customer
-        ];
-        return response()->json($data);
+        return new CustomerResource(Customer::create($request->all()));
     }
 
     public function show(Customer $customer)
     {
-        $data = [
-            'customer' => $customer,
-            'services' => $customer->services
-        ];
-        return response()->json($data);
+        return new CustomerResource($customer->loadMissing('invoices'));
     }
 
     public function update(UpdateRequest $request, Customer $customer)
     {
-        $customer->document_type = $request->document_type;
-        $customer->document_number = $request->document_number;
-        $customer->name = $request->name;
-        $customer->last_name = $request->last_name;
-        $customer->email = $request->email;
-        $customer->phone = $request->phone;
-        $customer->address = $request->address;
-        $customer->save();
-        $data = [
-            'message' => 'Customer updated successfully',
-            'customer' => $customer
-        ];
-        return response()->json($data);
+        $customer->update($request->all());
+        return response()->json($customer);
     }
 
     public function destroy(Customer $customer)
