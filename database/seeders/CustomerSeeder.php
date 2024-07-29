@@ -13,7 +13,7 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
-        $customers = Customer::factory(5)->create();
+        $customers = Customer::factory(5)->hasInvoices(3)->create();
 
         foreach ($customers as $customer) {
             $customer->services()->attach(rand(1, 3));
