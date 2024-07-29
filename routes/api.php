@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/services/service/detach', [CustomerController::class, 'detach']);
 
     Route::post('/services/customers', [ServiceController::class, 'customers']);
+
+    Route::get('/invoices', [InvoiceController::class, 'index']);
+    Route::post('/invoices/bulk', [InvoiceController::class, 'bulkStore']);
 
     Route::apiResource('roles', RoleController::class);
     Route::get('/permissions', [RoleController::class, 'permissions']);
